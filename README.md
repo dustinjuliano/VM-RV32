@@ -165,3 +165,11 @@ python3 test_runner.py
 - `parser.py`: Assembly and meta-syntax parser.
 - `tutorial/`: The 64-part educational curriculum.
 - `tests/`: Comprehensive unit and integration tests.
+
+## AI Disclosure & Project Background
+
+I consider this project a test of Google Antigravity and Gemini 3. That is because I designed the program and never wrote a single line of code. Not even one. I told the AI agent in Antigravity what needed to be done, corrected its design and implementation mistakes, and guided it as needed. In this way, this whole project was effectively done via a fully declarative programming approach using English. It took one evening to do something that would have taken many weeks. The alternative would have been nothing, as I do not currently have the time to work on side projects.
+
+The purpose of this tool was to help out fellow students. We are using emulators in our course to study RISC-V, and these are simply not designed with programming in mind. Having a memory-safe local tool that can integrate into our existing editors is extremely helpful, and the tutorials also assist with learning the ISA itself. Ultimately, any assignment we would have to do goes into a designated emulator set by our instructor, which is the final word on whether or not the Assembly program will be accepted or not. This tool is a supplement, not a replacement, for that process, meant to improve productivity to allow focusing on studying.
+
+I am impressed with Google Antigravity and the agentic programming experience. I was able to work on two other projects simultaneously while doing this one, a feat that is not humanly possible without the agentic AI. I found the process really exciting, as if the maturity of the tooling was now reaching a level where I could actually benefit from it in a tangible way. I think agentic coding tools like Antigravity have much more potential as well, and can be used for a wider range of tasks with the right setup and a little creativity. I am looking forward to seeing where it leads.
