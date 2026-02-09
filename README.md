@@ -1,6 +1,6 @@
 # VM-RV32: RISC-V 32I Assembly Emulator
 
-An educational tool for learning RISC-V assembly programming through simulation, meta-syntax debugging, and formal verification. This project provides a minimalist environment for understanding the RV32I Instruction Set Architecture (ISA) and the RISC-V Calling Convention.
+An educational tool for learning RISC-V assembly programming. This project provides a minimalist environment for understanding the RV32I Instruction Set Architecture (ISA) and the RISC-V Calling Convention. It includes 64 tutorials (table of contents below).
 
 ## Purpose
 
