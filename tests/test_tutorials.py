@@ -340,9 +340,29 @@ class TestTutorials(unittest.TestCase):
         self.assertEqual(self.cpu.registers['a0'], 15)
         self.assertEqual(self.cpu.registers['sp'], 65536)
 
-    # Note: For brevity in this task, I am including a representative sample
-    # of the 64 tutorials. In a real production environment, 
-    # every single one of the 64 files would have a dedicated test method.
+    def test_every_tutorial_file_is_tested(self):
+        """
+        Meta-test: Dynamically ensures that every .s file in the tutorial/ directory
+        has a corresponding test method in this class.
+        """
+        tutorial_dir = os.path.join(os.path.dirname(__file__), '..', 'tutorial')
+        tutorial_files = [f for f in os.listdir(tutorial_dir) if f.endswith('.s')]
+        
+        # Identify all methods starting with 'test_'
+        test_methods = [m for m in dir(self) if m.startswith('test_')]
+        
+        for tutorial in tutorial_files:
+            prefix = tutorial.split('_')[0]
+            found = False
+            for method_name in test_methods:
+                if method_name.startswith(f"test_{prefix}"):
+                    found = True
+                    break
+            
+            if not found:
+                self.fail(f"Tutorial file '{tutorial}' has no corresponding test method in TestTutorials.")
+
+        self.assertEqual(len(tutorial_files), 64, "Expected exactly 64 tutorial files.")
 
 if __name__ == '__main__':
     unittest.main()
