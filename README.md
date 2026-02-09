@@ -40,8 +40,6 @@ python3 main.py <file.s>
 
 The emulator will execute the instructions and process any meta-syntax commands found in the source code.
 
-The emulator will execute the instructions and process any meta-syntax commands found in the source code.
-
 ## ISA Conformance
 
 **VM-RV32 is fully compliant with the RISC-V User-Level ISA V2.2.**
