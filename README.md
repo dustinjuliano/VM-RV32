@@ -121,7 +121,7 @@ The project includes a comprehensive series of **64 tutorials** designed to guid
 53. **[Branch Pseudos](tutorial/53_branch_pseudos.s)**: BGT, BLE, BGTU, BLEU abstractions.
 54. **[Tail Calls](tutorial/54_tail_calls.s)**: Optimizing final jumps in call sequences.
 55. **[Pseudos Review](tutorial/55_pseudos_review.s)**: Comprehensive review of assembly abstractions.
-56. **[Advanced @print](tutorial/56_advanced_print.s)**: Inspecting PC and complex memory ranges.
+56. **[Advanced @print & Expressions](tutorial/56_advanced_print.s)**: Learn arithmetic in debugging and complex memory inspection.
 57. **[Advanced Expressions](tutorial/57_advanced_expressions.s)**: Complex bit manipulation in assertions.
 58. **[Memory Expressions](tutorial/58_mem_expressions.s)**: Using m[] in verification logic.
 59. **[Multi-assertions](tutorial/59_multi_assertions.s)**: Complex verification spanning multiple lines.

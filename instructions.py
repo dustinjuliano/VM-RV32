@@ -356,6 +356,17 @@ class Print(Instruction):
       val = cpu.registers[self.reg_index]
     print(f"[DEBUG] {self.reg_name} = {val} (0x{val:08X})")
 
+class PrintExpression(Instruction):
+  def __init__(self, expr_obj, expr_str):
+    super().__init__()
+    self.expr_obj = expr_obj
+    self.expr_str = expr_str
+
+  def execute(self, cpu):
+    val = self.expr_obj.evaluate(cpu)
+    print(f"[DEBUG] {self.expr_str} = {val} (0x{val:08X})")
+
+
 class PrintMem(Instruction):
   def __init__(self, addr_expr, type_str, n):
     super().__init__()

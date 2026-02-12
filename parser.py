@@ -181,8 +181,16 @@ class Parser:
   def parse_meta(self, line):
     if line.startswith('@print '):
       name = line[7:].strip()
+      # Try known register/pc first
       if name.lower() == 'pc': return instr.Print('PC', 'pc')
-      return instr.Print(name, self.REGISTER_MAP[name.lower()])
+      if name.lower() in self.REGISTER_MAP: return instr.Print(name, self.REGISTER_MAP[name.lower()])
+      # If not a simple register, try parsing as expression
+      try:
+        expr_obj = self.parse_expr(name)
+        return instr.PrintExpression(expr_obj, name)
+      except:
+        return instr.Print(name, self.REGISTER_MAP[name.lower()]) # Fallback to trigger original error if needed
+
     if line.startswith('@print_mem '):
       p = line[11:].split()
       return instr.PrintMem(int(p[0], 0), p[1], int(p[2]) if len(p) > 2 else 1)
@@ -223,7 +231,15 @@ class Parser:
         if name == 'ge': return expr.Ge(args[0], args[1])
         if name == 'and': return expr.AndExpr(args[0], args[1])
         if name == 'or': return expr.OrExpr(args[0], args[1])
+        if name == 'and': return expr.AndExpr(args[0], args[1])
+        if name == 'or': return expr.OrExpr(args[0], args[1])
         if name == 'not': return expr.NotExpr(args[0])
+        if name == 'add': return expr.Add(args[0], args[1])
+        if name == 'sub': return expr.Sub(args[0], args[1])
+        if name == 'mul': return expr.Mul(args[0], args[1])
+        if name == 'div': return expr.Div(args[0], args[1])
+        if name == 'mod': return expr.Mod(args[0], args[1])
+
       raise ValueError(f"Unexpected token: {token}")
     return parse_next()
 

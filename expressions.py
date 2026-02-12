@@ -3,6 +3,7 @@ This module defines the expression classes for the functional assertion language
 Each class implements an evaluate(cpu) method.
 """
 
+
 class Expression:
   """Base class for all expressions."""
   def evaluate(self, cpu):
@@ -75,3 +76,28 @@ class NotExpr(Expression):
     self.inner = inner
   def evaluate(self, cpu):
     return not self.inner.evaluate(cpu)
+
+class Add(BinaryOp):
+  def evaluate(self, cpu):
+    return (self.left.evaluate(cpu) + self.right.evaluate(cpu)) & 0xFFFFFFFF
+
+class Sub(BinaryOp):
+  def evaluate(self, cpu):
+    return (self.left.evaluate(cpu) - self.right.evaluate(cpu)) & 0xFFFFFFFF
+
+class Mul(BinaryOp):
+  def evaluate(self, cpu):
+    return (self.left.evaluate(cpu) * self.right.evaluate(cpu)) & 0xFFFFFFFF
+
+class Div(BinaryOp):
+  def evaluate(self, cpu):
+    right = self.right.evaluate(cpu)
+    if right == 0: return 0xFFFFFFFF # Define division by zero behavior
+    return (self.left.evaluate(cpu) // right) & 0xFFFFFFFF
+
+class Mod(BinaryOp):
+  def evaluate(self, cpu):
+    right = self.right.evaluate(cpu)
+    if right == 0: return 0xFFFFFFFF # Define mod by zero behavior
+    return (self.left.evaluate(cpu) % right) & 0xFFFFFFFF
+
