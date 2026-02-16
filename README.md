@@ -7,7 +7,7 @@ An educational tool for learning RISC-V assembly programming. This project provi
 The primary goal of this emulator is to bridge the gap between high-level architectural concepts and low-level machine execution. It includes a custom meta-syntax that allows learners to:
 - **Inspect** machine state using `@print`.
 - **Verify** logic using `@assert` with a powerful expression language.
-- **Deep Dive** into memory with `@print_mem`.
+- **Display** memory with `@print_mem`.
 
 ## Getting Started
 
@@ -17,18 +17,7 @@ The primary goal of this emulator is to bridge the gap between high-level archit
 
 ### Installation
 
-No installation is required. You can use the provided aliases for easier access:
-
-**macOS/Linux:**
-```bash
-chmod +x rvsim
-./rvsim tutorial/01_basic_debugging.s
-```
-
-**Windows:**
-```cmd
-rvsim.bat tutorial\01_basic_debugging.s
-```
+No installation required.
 
 ## Usage
 
@@ -62,7 +51,7 @@ This dual-mode approach allows beginners to catch errors early while advanced us
 
 ## Educational Tutorials
 
-The project includes a comprehensive series of **64 tutorials** designed to guide a learner from zero knowledge to a deep understanding of the RISC-V 32I ISA. Every tutorial is functionally verified as part of our automated CI suite.
+The project includes a series of **64 tutorials** designed to guide a learner from zero knowledge to a deep understanding of the RISC-V 32I ISA. Every tutorial is functionally verified as part of our automated CI suite.
 
 ### Curriculum Overview
 
