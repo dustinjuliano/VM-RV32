@@ -133,6 +133,17 @@ The project includes a series of **64 tutorials** designed to guide a learner fr
 
 Every component and tutorial is rigorously verified through a multi-layered testing strategy that ensures architectural accuracy and system reliability.
 
+## Traceability & Compliance
+
+**VM-RV32 enforces strict bidirectional traceability between requirements, implementation, and testing.**
+
+Every feature documented in [features.md](doc/features.md)—from individual RV32I instructions to architectural safety mechanisms like stack protection—is tracked in a formal **Compliance Matrix**.
+
+### Bidirectional Enforcement
+- The project mandates bidirectional traceability audits for every change. Automated tests in [tests/test_traceability.py](tests/test_traceability.py) serve as a secondary validation of matrix synchronization.
+
+Detailed mapping can be found in [doc/compliance_matrix.json](doc/compliance_matrix.json).
+
 ### Test Suite Overview
 
 - **[Instruction Specification](tests/test_instruction_spec.py)**: Formal verification of every RV32I base instruction against its architectural state transitions.
@@ -151,17 +162,6 @@ To execute the complete test suite and verify 100% project coverage:
 ```bash
 python3 test_runner.py
 ```
-
-## Traceability & Compliance
-
-**VM-RV32 enforces strict bidirectional traceability between requirements, implementation, and testing.**
-
-Every feature documented in [features.md](doc/features.md)—from individual RV32I instructions to architectural safety mechanisms like stack protection—is tracked in a formal **Compliance Matrix**.
-
-### Bidirectional Enforcement
-- **Agent-Led Audits**: The project mandates **manual** bidirectional traceability audits for every change, as detailed in [.agent/traceability_compliance.md](.agent/traceability_compliance.md). Automated tests in [tests/test_traceability.py](tests/test_traceability.py) serve as a secondary validation of matrix synchronization.
-
-Detailed mapping can be found in [doc/compliance_matrix.json](doc/compliance_matrix.json).
 
 ## Project Structure
 
