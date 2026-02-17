@@ -20,7 +20,8 @@ class TestStackProtection(unittest.TestCase):
             self.cpu.registers['sp'] = setup_sp
         
         # Parse
-        instructions = self.parser.parse_program(code)
+        parse_result = self.parser.parse_program(code)
+        instructions = parse_result['instructions']
         
         # Execute
         self.cpu.step(instructions)
@@ -33,7 +34,8 @@ class TestStackProtection(unittest.TestCase):
         self.cpu.registers['sp'] = 32770
         code = "addi sp, sp, -4"
         
-        instructions = self.parser.parse_program(code)
+        parse_result = self.parser.parse_program(code)
+        instructions = parse_result['instructions']
         # Check if parsed instruction has 'use_sp' tag
         instr_obj = instructions[0][0] 
         self.assertIn("use_sp", instr_obj.tags)
@@ -45,7 +47,8 @@ class TestStackProtection(unittest.TestCase):
         self.cpu.registers['x2'] = 32770
         code = "addi x2, x2, -4"
         
-        instructions = self.parser.parse_program(code)
+        parse_result = self.parser.parse_program(code)
+        instructions = parse_result['instructions']
         instr_obj = instructions[0][0]
         self.assertNotIn("use_sp", instr_obj.tags)
         
@@ -55,19 +58,22 @@ class TestStackProtection(unittest.TestCase):
         self.assertEqual(self.cpu.registers['x2'], 32766)
 
     def test_sp_underflow(self):
-        self.cpu.registers['sp'] = 65536
+        # sp should not go above stack_base
+        self.cpu.registers['sp'] = self.cpu.stack_base
         code = "addi sp, sp, 4"
         
-        instructions = self.parser.parse_program(code)
+        parse_result = self.parser.parse_program(code)
+        instructions = parse_result['instructions']
         self.cpu.step(instructions)
         
-        self.assertTrue(self.cpu.halted, "CPU should halt on stack underflow with sp alias")
+        self.assertTrue(self.cpu.halted, f"CPU should halt on stack underflow (sp={self.cpu.registers['sp']}, base={self.cpu.stack_base})")
 
     def test_x2_no_underflow(self):
         self.cpu.registers['x2'] = 65536
         code = "addi x2, x2, 4"
         
-        instructions = self.parser.parse_program(code)
+        parse_result = self.parser.parse_program(code)
+        instructions = parse_result['instructions']
         self.cpu.step(instructions)
         
         self.assertFalse(self.cpu.halted)

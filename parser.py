@@ -25,52 +25,112 @@ class Parser:
   def __init__(self):
     self.labels = {}
     self.instructions = {} 
+    self.data_memory = {} # addr -> byte
+    self.text_base = 0x0000
+    self.data_base = 0x4000
 
   def parse_program(self, source):
     self.labels = {}
     self.instructions = {} 
+    self.data_memory = {}
     
     lines = source.splitlines()
-    addr = 0
+    text_addr = self.text_base
+    data_addr = self.data_base
+    current_segment = '.text'
+    
     clean_lines = []
 
-    # First pass: identify labels and advance addr
-    for line in lines:
+    # First pass: identify labels, advance addresses, and store data
+    for line_idx, line in enumerate(lines):
+      raw_line = line
       line = line.split('#')[0].strip()
       if not line: continue
-      
+
+      # 1. Handle labels (multiple labels possible on one line)
       while True:
         match = re.match(r'^([a-zA-Z_.]\w*):(.*)', line)
         if match:
-          self.labels[match.group(1)] = addr
+          label = match.group(1)
+          self.labels[label] = text_addr if current_segment == '.text' else data_addr
           line = match.group(2).strip()
         else: break
       
       if not line: continue
-      clean_lines.append((addr, line))
-      
-      # Determine expansion size
-      parts = re.split(r'[\s,()]+', line)
-      parts = [p for p in parts if p]
-      mnemonic = parts[0].lower()
-      
-      expected = 4
-      if mnemonic == 'li' and len(parts) > 2:
-        try:
-          imm = int(parts[2], 0)
-          if not (-2048 <= imm <= 2047): expected = 8
-        except: expected = 8
-      elif mnemonic in ['la', 'call']:
-        expected = 8
-      
-      addr += expected
+
+      # 2. Handle directives
+      if line.startswith('.'):
+        parts = re.split(r'\s+', line)
+        directive = parts[0].lower()
+        if directive == '.text':
+          current_segment = '.text'
+          continue
+        elif directive == '.data':
+          current_segment = '.data'
+          continue
+        elif directive == '.word':
+          if current_segment != '.data':
+            raise ValueError(f"Line {line_idx+1}: .word outside .data segment")
+          for val_str in re.split(r'[\s,]+', " ".join(parts[1:])):
+            if not val_str: continue
+            val = int(val_str, 0)
+            for i in range(4):
+              self.data_memory[data_addr + i] = (val >> (i * 8)) & 0xFF
+            data_addr += 4
+          continue
+        elif directive == '.string':
+          if current_segment != '.data':
+            raise ValueError(f"Line {line_idx+1}: .string outside .data segment")
+          # Handle quoted string
+          match = re.search(r'"(.*)"', line)
+          if match:
+            s = match.group(1).encode().decode('unicode_escape')
+            for char in s:
+              self.data_memory[data_addr] = ord(char)
+              data_addr += 1
+            self.data_memory[data_addr] = 0 # Null terminator
+            data_addr += 1
+          continue
+
+      # 3. Handle instructions (only in .text segment)
+      if current_segment == '.text':
+          # Collision Safeguard
+          if text_addr >= self.data_base:
+            raise ValueError(f"Line {line_idx+1}: Segment collision! .text overflowed into .data at 0x{text_addr:08X}")
+            
+          clean_lines.append((text_addr, line))
+          
+          # Determine expansion size
+          parts = re.split(r'[\s,()]+', line)
+          parts = [p for p in parts if p]
+          mnemonic = parts[0].lower()
+          
+          expected = 4
+          if mnemonic == 'li' and len(parts) >= 3:
+            try:
+              imm = int(parts[-1], 0)
+              if not (-2048 <= imm <= 2047): expected = 8
+            except: expected = 8
+          elif mnemonic == 'la' and len(parts) >= 3:
+            expected = 8
+          elif mnemonic == 'call' and len(parts) >= 2:
+            expected = 8
+          elif mnemonic == 'lw' and len(parts) == 3 and parts[2] in self.labels:
+            # Check if it was a pseudo-lw (PC-relative)
+            expected = 8
+          
+          text_addr += expected
+      else:
+          # Instructions in .data segment are ignored or could be an error
+          pass
 
     # Second pass: parse instructions
-    current_addr = 0
+    current_addr = self.text_base
     for addr, line in clean_lines:
       # Pad any gaps from labels/pseudo logic
       while current_addr < addr:
-        if current_addr not in self.instructions: self.instructions[current_addr] = [instr.Addi(0, 0, 0)]
+        if current_addr not in self.instructions: 
+          self.instructions[current_addr] = [instr.Addi(0, 0, 0)]
         current_addr += 4
 
       objs = self.parse_line(line, addr)
@@ -78,12 +138,15 @@ class Parser:
         if not isinstance(objs, list): objs = [objs]
         for i, obj in enumerate(objs):
             self.instructions[addr + i*4] = [obj]
-        # Calculate how much space this actually took
-        # Note: We MUST match the first pass's expectation precisely or pad.
-        # This implementation assumes parse_line returns exactly what we expected or less.
-      current_addr = addr + (8 if isinstance(objs, list) and len(objs) > 1 else 4)
+      
+      # Correctly advance current_addr based on what we actually produced
+      current_addr = addr + (4 * (len(objs) if isinstance(objs, list) else 1))
     
-    return self.instructions
+    return {
+        'instructions': self.instructions,
+        'data': self.data_memory,
+        'start_addr': self.labels.get('main', self.text_base)
+    }
 
   def _parse_line_logic(self, line, addr):
     line = line.strip()
@@ -120,7 +183,20 @@ class Parser:
       return [instr.Lui(rd, upper), instr.Addi(rd, rd, lower)]
     
     if mnemonic == 'la':
-      return [instr.Auipc(get_reg(args[0]), 0), instr.Addi(get_reg(args[0]), get_reg(args[0]), get_imm(args[1]) - addr)]
+        rd = get_reg(args[0])
+        target = get_imm(args[1])
+        diff = target - addr
+        hi = (diff + 0x800) >> 12
+        lo = diff - (hi << 12)
+        return [instr.Auipc(rd, hi), instr.Addi(rd, rd, lo)]
+    
+    if mnemonic == 'lw' and len(args) == 2 and args[1] in self.labels:
+        rd = get_reg(args[0])
+        target = self.labels[args[1]]
+        diff = target - addr
+        hi = (diff + 0x800) >> 12
+        lo = diff - (hi << 12)
+        return [instr.Auipc(rd, hi), instr.Lw(rd, rd, lo)]
     
     if mnemonic == 'mv': return instr.Addi(get_reg(args[0]), get_reg(args[1]), 0)
     if mnemonic == 'neg': return instr.Sub(get_reg(args[0]), 0, get_reg(args[1]))
@@ -151,7 +227,7 @@ class Parser:
     if mnemonic == 'ebreak': return instr.Ebreak()
 
     # --- Base ---
-    if mnemonic in ['add', 'sub', 'sll', 'slt', 'sltu', 'xor', 'srl', 'sra', 'or', 'and']:
+    if mnemonic in ['add', 'sub', 'sll', 'slt', 'sltu', 'xor', 'srl', 'sra', 'or', 'and', 'mul']:
       return getattr(instr, mnemonic.capitalize())(get_reg(args[0]), get_reg(args[1]), get_reg(args[2]))
     if mnemonic in ['addi', 'slti', 'sltiu', 'xori', 'ori', 'andi', 'slli', 'srli', 'srai']:
       return getattr(instr, mnemonic.capitalize())(get_reg(args[0]), get_reg(args[1]), get_imm(args[2]))

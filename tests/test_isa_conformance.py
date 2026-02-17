@@ -18,7 +18,8 @@ class TestISAConformance(unittest.TestCase):
     def verify_mnemonic(self, mnemonic, args, expected_class):
         code = f"{mnemonic} {args}"
         try:
-            instructions = self.parser.parse_program(code)
+            parse_result = self.parser.parse_program(code)
+            instructions = parse_result['instructions']
             # instructions is {addr: [obj]}
             obj = instructions[0][0]
             self.assertIsInstance(obj, expected_class, f"Checking {mnemonic}")

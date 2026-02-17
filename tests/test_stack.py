@@ -52,7 +52,8 @@ class TestStack(unittest.TestCase):
         addi sp, sp, 16
         """
         self.cpu.registers['ra'] = 0xDEADBEEF
-        instrs = self.parser.parse_program(program)
+        parse_result = self.parser.parse_program(program)
+        instrs = parse_result['instructions']
         
         # Step through the 4 instructions
         for _ in range(4):

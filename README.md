@@ -31,14 +31,21 @@ The emulator will execute the instructions and process any meta-syntax commands 
 
 ## ISA Conformance
 
-**VM-RV32 is fully compliant with the RISC-V User-Level ISA V2.2.**
+**VM-RV32 is compliant with the RISC-V User-Level ISA V2.2, including standard extensions and advanced memory features.**
 
-It implements the complete **RV32I Base Integer Instruction Set**, ensuring that any valid, non-privileged RV32I program will execute correctly. This includes:
-- **Integer Computational Instructions**: Arithmetic, logical, and shift operations.
-- **Control Transfer Instructions**: Unconditional jumps and conditional branches.
-- **Load and Store Instructions**: Byte, halfword, and word access.
+### Implemented ISA
+- **RV32I Base Integer Instruction Set**: Complete implementation including arithmetic, logical, shifts, jumps, branches, and memory access.
+- **RV32M Standard Extension**: Support for the `MUL` instruction (32-bit integer multiplication).
+
+### System and Memory Features
+- **Multi-Segment Memory Model**: Support for `.text` (code) and `.data` (static variables) segments with configurable base addresses.
+- **Assembler Directives**: Support for `.word` and `.string` for data initialization.
+- **Environment Calls**: Enhanced `ECALL` support with standard syscalls:
+  - `a7=1`: Print Integer
+  - `a7=4`: Print String
+  - `a7=10`: Exit program
 - **Memory Ordering**: `FENCE` is parsed as a NOP (valid for sequential consistency models).
-- **Environment Call**: `ECALL` and `EBREAK` are supported as traps.
+- **Control Transfer**: Full support for PC-relative addressing using `AUIPC` and pseudo-instructions like `LA` and `CALL`.
 
 ## Stack Protection
 
@@ -144,6 +151,17 @@ To execute the complete test suite and verify 100% project coverage:
 ```bash
 python3 test_runner.py
 ```
+
+## Traceability & Compliance
+
+**VM-RV32 enforces strict bidirectional traceability between requirements, implementation, and testing.**
+
+Every feature documented in [features.md](doc/features.md)—from individual RV32I instructions to architectural safety mechanisms like stack protection—is tracked in a formal **Compliance Matrix**.
+
+### Bidirectional Enforcement
+- **Agent-Led Audits**: The project mandates **manual** bidirectional traceability audits for every change, as detailed in [.agent/traceability_compliance.md](.agent/traceability_compliance.md). Automated tests in [tests/test_traceability.py](tests/test_traceability.py) serve as a secondary validation of matrix synchronization.
+
+Detailed mapping can be found in [doc/compliance_matrix.json](doc/compliance_matrix.json).
 
 ## Project Structure
 

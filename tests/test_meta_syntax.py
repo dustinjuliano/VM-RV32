@@ -121,21 +121,24 @@ class TestMetaSyntax(unittest.TestCase):
     
     # Assert parsing
     prog = "@assert and(eq(x1, 5), ne(x2, 0))"
-    instrs = parser.parse_program(prog)
+    parse_result = parser.parse_program(prog)
+    instrs = parse_result['instructions']
     assert_instr = instrs[0][0]
     self.assertIsInstance(assert_instr, instr.Assert)
     self.assertEqual(assert_instr.line_text, "and(eq(x1, 5), ne(x2, 0))")
     
     # Print parsing
     prog_print = "@print x5"
-    instrs = parser.parse_program(prog_print)
+    parse_result = parser.parse_program(prog_print)
+    instrs = parse_result['instructions']
     print_instr = instrs[0][0]
     self.assertIsInstance(print_instr, instr.Print)
     self.assertEqual(print_instr.reg_name, "x5")
     
     # Print_mem parsing
     prog_pmem = "@print_mem 0x100 u16 8"
-    instrs = parser.parse_program(prog_pmem)
+    parse_result = parser.parse_program(prog_pmem)
+    instrs = parse_result['instructions']
     pm_instr = instrs[0][0]
     self.assertIsInstance(pm_instr, instr.PrintMem)
     self.assertEqual(pm_instr.addr_expr, 0x100)
@@ -144,7 +147,8 @@ class TestMetaSyntax(unittest.TestCase):
 
     # Print expression parsing
     prog_pexpr = "@print add(x1, 5)"
-    instrs = parser.parse_program(prog_pexpr)
+    parse_result = parser.parse_program(prog_pexpr)
+    instrs = parse_result['instructions']
     pexpr_instr = instrs[0][0]
     self.assertIsInstance(pexpr_instr, instr.PrintExpression)
     self.assertEqual(pexpr_instr.expr_str, "add(x1, 5)")
@@ -154,7 +158,8 @@ class TestMetaSyntax(unittest.TestCase):
     parser = Parser()
     
     # Whitespace handling
-    instrs = parser.parse_program("@print add(  x1  ,   10  )")
+    parse_result = parser.parse_program("@print add(  x1  ,   10  )")
+    instrs = parse_result['instructions']
     # The instruction is wrapped in a list of instructions for that address
     # structure: {addr: [instr, ...]}
     # Since we don't have addresses in the string, addr starts at 0
@@ -164,9 +169,11 @@ class TestMetaSyntax(unittest.TestCase):
     self.assertIsInstance(instrs[first_addr][0], instr.PrintExpression)
     
     # Nested whitespace
-    instrs = parser.parse_program("@print add( sub( x1, 1 ), 5 )")
+    parse_result = parser.parse_program("@print add( sub( x1, 1 ), 5 )")
+    instrs = parse_result['instructions']
     # Case insensitivity for operators
-    instrs = parser.parse_program("@print ADD(x1, 5)")
+    parse_result = parser.parse_program("@print ADD(x1, 5)")
+    instrs = parse_result['instructions']
     self.assertIsInstance(instrs[0][0], instr.PrintExpression)
 
   def test_functional_runtime_validation(self):
@@ -204,7 +211,8 @@ class TestMetaSyntax(unittest.TestCase):
     """
     
     parser = Parser()
-    instructions = parser.parse_program(program)
+    parse_result = parser.parse_program(program)
+    instructions = parse_result['instructions']
     
     # Execute
     # We need to flatten the instruction dictionary to a list for sequential execution test

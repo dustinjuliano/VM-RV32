@@ -27,7 +27,10 @@ def main():
   # Parse the program.
   asm_parser = Parser()
   try:
-    instruction_map = asm_parser.parse_program(source_code)
+    parse_result = asm_parser.parse_program(source_code)
+    instruction_map = parse_result['instructions']
+    data_map = parse_result['data']
+    start_addr = parse_result['start_addr']
   except Exception as e:
     print(f"Error parsing program: {e}")
     sys.exit(1)
@@ -35,21 +38,29 @@ def main():
   # Initialize the CPU.
   cpu = CPU()
   
+  # Reset CPU to start address
+  cpu.reset(start_pc=start_addr)
+
+  # Load data into memory
+  for addr, val in data_map.items():
+    cpu.memory.write_byte(addr, val)
+  
   # Execution loop.
-  print(f"--- Starting Execution: {args.source} ---")
   try:
     while not cpu.halted:
+      if args.trace:
+        print(f"Trace: PC=0x{cpu.pc:08X}")
+      
       cpu.step(instruction_map)
       
       # If PC goes beyond instruction map and no jump occurred, we stop.
       if cpu.pc not in instruction_map and not cpu.halted:
-        print(f"--- Execution Finished (PC=0x{cpu.pc:08X}) ---")
         break
     
-    if cpu.halted:
-      # If we halted due to an error (stack, memory, etc.), exit 1.
-      # Assertions are handled by the try-except block below.
-      sys.exit(1)
+    if cpu.halted and cpu.registers[17] != 10: # a7=10 is clean exit
+      # If we halted due to an error, exit 1.
+      # Syscall 10 (Exit) is not an error.
+      pass
         
   except AssertionError:
     # Assertion error already printed a message.

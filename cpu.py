@@ -26,12 +26,12 @@ class CPU:
     self.stack_limit = mem_size // 2
     self.registers['sp'] = self.stack_base
 
-  def reset(self):
+  def reset(self, start_pc=0):
     # Resets the CPU state.
     mem_size = self.memory.size
     self.registers = RegisterFile()
     self.memory = Memory(size=mem_size)
-    self.pc = 0
+    self.pc = start_pc
     self.halted = False
     self.registers['sp'] = self.stack_base
 

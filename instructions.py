@@ -75,6 +75,13 @@ class And(RType):
   def execute(self, cpu):
     cpu.registers[self.rd] = cpu.registers[self.rs1] & cpu.registers[self.rs2]
 
+# --- M-Extension ---
+
+class Mul(RType):
+  def execute(self, cpu):
+    val = (cpu.registers[self.rs1] * cpu.registers[self.rs2]) & 0xFFFFFFFF
+    cpu.registers[self.rd] = val
+
 # --- I-Type ---
 
 class IType(Instruction):
@@ -410,8 +417,25 @@ class Fence(System):
 
 class Ecall(System):
   def execute(self, cpu):
-    print(f"[System] ECALL triggered at PC=0x{cpu.pc:08X}")
-    cpu.halted = True
+    syscall_num = cpu.registers[17] # a7
+    if syscall_num == 1: # Print Integer
+        val = cpu.registers[10] # a0
+        if val & 0x80000000: val -= 0x100000000
+        print(val, end="", flush=True)
+    elif syscall_num == 4: # Print String
+        addr = cpu.registers[10] # a0
+        s = ""
+        while True:
+            char_code = cpu.memory.read_byte(addr)
+            if char_code == 0: break
+            s += chr(char_code)
+            addr += 1
+        print(s, end="", flush=True)
+    elif syscall_num == 10: # Exit
+        cpu.halted = True
+    else:
+        print(f"\n[System] Unknown syscall: {syscall_num} at PC=0x{cpu.pc:08X}")
+        cpu.halted = True
 
 class Ebreak(System):
   def execute(self, cpu):

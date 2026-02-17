@@ -18,7 +18,8 @@ class TestTutorials(unittest.TestCase):
         with open(path, 'r') as f:
             source = f.read()
         
-        program = self.parser.parse_program(source)
+        parse_result = self.parser.parse_program(source)
+        program = parse_result['instructions']
         
         while not self.cpu.halted:
             if self.cpu.pc in program:

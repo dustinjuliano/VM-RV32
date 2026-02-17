@@ -1,0 +1,618 @@
+{
+  "rv32i_base": {
+    "add": {
+      "class": "Add",
+      "tests": [
+        "test_core.py:test_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sub": {
+      "class": "Sub",
+      "tests": [
+        "test_core.py:test_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sll": {
+      "class": "Sll",
+      "tests": [
+        "test_core.py:test_shifts",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "slt": {
+      "class": "Slt",
+      "tests": [
+        "test_core.py:test_comparisons",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sltu": {
+      "class": "Sltu",
+      "tests": [
+        "test_core.py:test_comparisons",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "xor": {
+      "class": "Xor",
+      "tests": [
+        "test_core.py:test_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "srl": {
+      "class": "Srl",
+      "tests": [
+        "test_core.py:test_shifts",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sra": {
+      "class": "Sra",
+      "tests": [
+        "test_core.py:test_shifts",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "or": {
+      "class": "Or",
+      "tests": [
+        "test_core.py:test_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "and": {
+      "class": "And",
+      "tests": [
+        "test_core.py:test_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "addi": {
+      "class": "Addi",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "slti": {
+      "class": "Slti",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sltiu": {
+      "class": "Sltiu",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "xori": {
+      "class": "Xori",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "ori": {
+      "class": "Ori",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "andi": {
+      "class": "Andi",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "slli": {
+      "class": "Slli",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "srli": {
+      "class": "Srli",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "srai": {
+      "class": "Srai",
+      "tests": [
+        "test_core.py:test_immediate_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "lw": {
+      "class": "Lw",
+      "tests": [
+        "test_core.py:test_meta_print",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "lh": {
+      "class": "Lh",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "lhu": {
+      "class": "Lhu",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "lb": {
+      "class": "Lb",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "lbu": {
+      "class": "Lbu",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sw": {
+      "class": "Sw",
+      "tests": [
+        "test_core.py:test_meta_print",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sh": {
+      "class": "Sh",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "sb": {
+      "class": "Sb",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "beq": {
+      "class": "Beq",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "bne": {
+      "class": "Bne",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "blt": {
+      "class": "Blt",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "bge": {
+      "class": "Bge",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "bltu": {
+      "class": "Bltu",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "bgeu": {
+      "class": "Bgeu",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "lui": {
+      "class": "Lui",
+      "tests": [
+        "test_core.py:test_u_type",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "auipc": {
+      "class": "Auipc",
+      "tests": [
+        "test_core.py:test_u_type",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "jal": {
+      "class": "Jal",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "jalr": {
+      "class": "Jalr",
+      "tests": [
+        "test_core.py:test_control_flow",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "fence": {
+      "class": "Fence",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "ecall": {
+      "class": "Ecall",
+      "tests": [
+        "test_syscalls.py:test_syscall_print_int",
+        "test_syscalls.py:test_syscall_exit",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    },
+    "ebreak": {
+      "class": "Ebreak",
+      "tests": [
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    }
+  },
+  "m_extension": {
+    "mul": {
+      "class": "Mul",
+      "tests": [
+        "test_core.py:test_arithmetic",
+        "test_isa_conformance.py:test_rv32i_base"
+      ]
+    }
+  },
+  "pseudos_and_directives": {
+    ".text": {
+      "implementation": "Parser.parse_program",
+      "tests": [
+        "test_segments.py:test_basic_segments"
+      ]
+    },
+    ".data": {
+      "implementation": "Parser.parse_program",
+      "tests": [
+        "test_segments.py:test_basic_segments"
+      ]
+    },
+    ".word": {
+      "implementation": "Parser.parse_program",
+      "tests": [
+        "test_segments.py:test_basic_segments"
+      ]
+    },
+    ".string": {
+      "implementation": "Parser.parse_program",
+      "tests": [
+        "test_segments.py:test_string_directive"
+      ]
+    },
+    "li": {
+      "expansion": [
+        "Lui",
+        "Addi"
+      ],
+      "tests": [
+        "test_parser.py:test_pseudo_instructions"
+      ]
+    },
+    "la": {
+      "expansion": [
+        "Auipc",
+        "Addi"
+      ],
+      "tests": [
+        "test_segments.py:test_label_resolution_across_segments"
+      ]
+    },
+    "lw_pseudo": {
+      "expansion": [
+        "Auipc",
+        "Lw"
+      ],
+      "tests": [
+        "test_segments.py:test_label_resolution_across_segments"
+      ]
+    },
+    "mv": {
+      "expansion": [
+        "Addi"
+      ],
+      "tests": [
+        "test_parser.py:test_pseudo_instructions"
+      ]
+    },
+    "neg": {
+      "expansion": [
+        "Sub"
+      ],
+      "tests": [
+        "test_tutorials.py:test_06_r_type_arithmetic"
+      ]
+    },
+    "not": {
+      "expansion": [
+        "Xori"
+      ],
+      "tests": [
+        "test_tutorials.py:test_07_r_type_logical"
+      ]
+    },
+    "nop": {
+      "expansion": [
+        "Addi"
+      ],
+      "tests": [
+        "test_parser.py:test_pseudo_instructions"
+      ]
+    },
+    "j": {
+      "expansion": [
+        "Jal"
+      ],
+      "tests": [
+        "test_parser.py:test_jal_shorthand"
+      ]
+    },
+    "jr": {
+      "expansion": [
+        "Jalr"
+      ],
+      "tests": [
+        "test_parser.py:test_jalr_formats"
+      ]
+    },
+    "ret": {
+      "expansion": [
+        "Jalr"
+      ],
+      "tests": [
+        "test_parser.py:test_jalr_formats"
+      ]
+    },
+    "call": {
+      "expansion": [
+        "Auipc",
+        "Jalr"
+      ],
+      "tests": [
+        "test_segments.py:test_label_resolution_across_segments"
+      ]
+    },
+    "seqz": {
+      "expansion": [
+        "Sltiu"
+      ],
+      "tests": [
+        "test_tutorials.py:test_10_i_type_arithmetic"
+      ]
+    },
+    "snez": {
+      "expansion": [
+        "Sltu"
+      ],
+      "tests": [
+        "test_tutorials.py:test_11_i_type_logical"
+      ]
+    },
+    "sltz": {
+      "expansion": [
+        "Slt"
+      ],
+      "tests": [
+        "test_tutorials.py:test_12_i_type_shifts"
+      ]
+    },
+    "sgtz": {
+      "expansion": [
+        "Slt"
+      ],
+      "tests": [
+        "test_tutorials.py:test_12_i_type_shifts"
+      ]
+    },
+    "beqz": {
+      "expansion": [
+        "Beq"
+      ],
+      "tests": [
+        "test_tutorials.py:test_17_branch_equality"
+      ]
+    },
+    "bnez": {
+      "expansion": [
+        "Bne"
+      ],
+      "tests": [
+        "test_tutorials.py:test_17_branch_equality"
+      ]
+    },
+    "blez": {
+      "expansion": [
+        "Bge"
+      ],
+      "tests": [
+        "test_tutorials.py:test_18_branch_signed"
+      ]
+    },
+    "bgez": {
+      "expansion": [
+        "Bge"
+      ],
+      "tests": [
+        "test_tutorials.py:test_18_branch_signed"
+      ]
+    },
+    "bltz": {
+      "expansion": [
+        "Blt"
+      ],
+      "tests": [
+        "test_tutorials.py:test_18_branch_signed"
+      ]
+    },
+    "bgtz": {
+      "expansion": [
+        "Blt"
+      ],
+      "tests": [
+        "test_tutorials.py:test_18_branch_signed"
+      ]
+    },
+    "bgt": {
+      "expansion": [
+        "Blt"
+      ],
+      "tests": [
+        "test_tutorials.py:test_18_branch_signed"
+      ]
+    },
+    "ble": {
+      "expansion": [
+        "Bge"
+      ],
+      "tests": [
+        "test_tutorials.py:test_18_branch_signed"
+      ]
+    },
+    "bgtu": {
+      "expansion": [
+        "Bltu"
+      ],
+      "tests": [
+        "test_tutorials.py:test_19_branch_unsigned"
+      ]
+    },
+    "bleu": {
+      "expansion": [
+        "Bgeu"
+      ],
+      "tests": [
+        "test_tutorials.py:test_19_branch_unsigned"
+      ]
+    }
+  },
+  "debugging_and_meta_syntax": {
+    "@print": {
+      "class": "Print",
+      "tests": [
+        "test_meta_syntax.py:test_print_instructions"
+      ]
+    },
+    "@print_expression": {
+      "class": "PrintExpression",
+      "tests": [
+        "test_core.py:test_complex_expressions",
+        "test_meta_syntax.py:test_print_instructions"
+      ]
+    },
+    "@print_mem": {
+      "class": "PrintMem",
+      "tests": [
+        "test_meta_syntax.py:test_print_instructions"
+      ]
+    },
+    "@assert": {
+      "class": "Assert",
+      "tests": [
+        "test_meta_syntax.py:test_assert_instruction"
+      ]
+    },
+    "expression_arithmetic": {
+      "implementation": "expressions.Add",
+      "tests": [
+        "test_meta_syntax.py:test_expressions_arithmetic"
+      ]
+    },
+    "expression_logical": {
+      "implementation": "expressions.AndExpr",
+      "tests": [
+        "test_meta_syntax.py:test_expressions_logical"
+      ]
+    },
+    "expression_comparisons": {
+      "implementation": "expressions.Eq",
+      "tests": [
+        "test_meta_syntax.py:test_expressions_comparisons"
+      ]
+    },
+    "expression_data_accessors": {
+      "implementation": "expressions.RegAccess",
+      "tests": [
+        "test_meta_syntax.py:test_expressions_basic"
+      ]
+    }
+  },
+  "system_architecture_and_safety": {
+    "register_management": {
+      "implementation": "RegisterFile",
+      "tests": [
+        "test_core.py:test_register_range",
+        "test_core.py:test_register_alias"
+      ]
+    },
+    "zero_register_invariance": {
+      "implementation": "RegisterFile.write",
+      "tests": [
+        "test_core.py:test_register_zero"
+      ]
+    },
+    "memory_addressing": {
+      "implementation": "Memory",
+      "tests": [
+        "test_memory.py:test_bounds_checking"
+      ]
+    },
+    "segment_isolation": {
+      "implementation": "Parser.parse_program",
+      "tests": [
+        "test_segments.py:test_segment_collision"
+      ]
+    },
+    "stack_overflow_protection": {
+      "implementation": "CPU.step",
+      "tests": [
+        "test_stack_protection.py:test_sp_overflow"
+      ]
+    },
+    "stack_underflow_protection": {
+      "implementation": "CPU.step",
+      "tests": [
+        "test_stack_protection.py:test_sp_underflow"
+      ]
+    },
+    "sp_activation_trigger": {
+      "implementation": "Parser.parse_line",
+      "tests": [
+        "test_stack_protection.py:test_sp_overflow"
+      ]
+    },
+    "hardware_bypass_x2": {
+      "implementation": "Parser.parse_line",
+      "tests": [
+        "test_stack_protection.py:test_x2_no_overflow"
+      ]
+    }
+  }
+}
